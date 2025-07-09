@@ -365,14 +365,3 @@ function hideElement(elementId) {
 
 // Initialize supabase
 supabase = window.supabase // Assuming supabase is initialized globally
-
-import { supabase } from './supabaseClient.js';
-
-async function fetchLessons() {
-  const { data, error } = await supabase.from('lessons').select('*');
-  if (error) {
-    console.error('Fetch error:', error);
-  } else {
-    console.log('Lessons:', data);
-  }
-}
