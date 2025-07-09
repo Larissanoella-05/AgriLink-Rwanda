@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgriLink Rwanda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <i class="fas fa-leaf text-2xl text-green-600"></i>
+                        <span class="text-xl font-bold text-gray-900">AgriLink Rwanda</span>
+                    </a>
+                    <span id="user-role-badge" class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full capitalize"></span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button id="lang-en" class="px-3 py-1 text-sm font-medium bg-green-600 text-white rounded">EN</button>
+                        <button id="lang-rw" class="px-3 py-1 text-sm font-medium bg-gray-200 text-gray-700 rounded">RW</button>
+                    </div>
+
+                    <button class="p-2 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-bell"></i>
+                    </button>
+
+                    <button class="p-2 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-cog"></i>
+                    </button>
+
+                    <button id="logout-btn" class="p-2 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+
+                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-semibold text-sm" id="user-avatar">
+                        U
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                <span data-en="Welcome back" data-rw="Murakaza neza">Welcome back</span>, 
+                <span id="user-name">User</span>!
+            </h1>
+            <div class="flex items-center text-gray-600 space-x-4">
+                <div class="flex items-center space-x-1">
+                    <i class="fas fa-map-marker-alt text-sm"></i>
+                    <span id="user-district">District</span>
+                </div>
+                <div class="flex items-center space-x-1" id="farm-location-info" style="display: none;">
+                    <i class="fas fa-leaf text-sm"></i>
+                    <span id="user-farm-location">Farm Location</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <i class="fas fa-calendar text-sm"></i>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="stats-grid">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Quick Actions -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-semibold mb-2">
+                        <span data-en="Quick Actions" data-rw="Ibikorwa Byihuse">Quick Actions</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6" id="quick-actions-description">
+                        Manage your activities
+                    </p>
+                    <div class="grid grid-cols-2 gap-4" id="quick-actions-grid">
+                        <!-- Quick actions will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div>
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-semibold mb-2">
+                        <span data-en="Recent Activity" data-rw="Ibikorwa Bya Vuba">Recent Activity</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6">Your latest actions and updates</p>
+                    <div class="space-y-4">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-calendar text-3xl text-gray-300 mb-4"></i>
+                            <p><span data-en="No recent activity" data-rw="Nta bikorwa bya vuba">No recent activity</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="marketplace.html" class="block">
+                <div class="bg-white rounded-lg shadow-sm p-6 text-center hover:shadow-md transition-shadow cursor-pointer">
+                    <i class="fas fa-shopping-cart text-3xl text-green-600 mb-4"></i>
+                    <h3 class="font-semibold mb-2">Marketplace</h3>
+                    <p class="text-sm text-gray-600">Browse and purchase agricultural products</p>
+                </div>
+            </a>
+
+            <a href="education.html" class="block">
+                <div class="bg-white rounded-lg shadow-sm p-6 text-center hover:shadow-md transition-shadow cursor-pointer">
+                    <i class="fas fa-book-open text-3xl text-purple-600 mb-4"></i>
+                    <h3 class="font-semibold mb-2">Education Portal</h3>
+                    <p class="text-sm text-gray-600">Access farming knowledge and training</p>
+                </div>
+            </a>
+
+            <a href="#" class="block">
+                <div class="bg-white rounded-lg shadow-sm p-6 text-center hover:shadow-md transition-shadow cursor-pointer">
+                    <i class="fas fa-users text-3xl text-blue-600 mb-4"></i>
+                    <h3 class="font-semibold mb-2">Community</h3>
+                    <p class="text-sm text-gray-600">Connect with other farmers and experts</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
