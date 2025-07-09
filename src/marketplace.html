@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - AgriLink Rwanda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="flex items-center space-x-2">
+                    <i class="fas fa-leaf text-2xl text-green-600"></i>
+                    <span class="text-xl font-bold text-gray-900">AgriLink Rwanda</span>
+                </a>
+
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button id="lang-en" class="px-3 py-1 text-sm font-medium bg-green-600 text-white rounded">EN</button>
+                        <button id="lang-rw" class="px-3 py-1 text-sm font-medium bg-gray-200 text-gray-700 rounded">RW</button>
+                    </div>
+
+                    <a href="dashboard.html" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                <span data-en="Agricultural Marketplace" data-rw="Isoko ry'Ubuhinzi">Agricultural Marketplace</span>
+            </h1>
+            <p class="text-gray-600">
+                <span data-en="Fresh produce directly from Rwandan farmers" data-rw="Ibihingwa bishya biva ku bahinzi b'u Rwanda">Fresh produce directly from Rwandan farmers</span>
+            </p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Search -->
+                <div class="lg:col-span-2">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        <input
+                            type="text"
+                            id="search-input"
+                            placeholder="Search products..."
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        >
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <select id="category-filter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="">All Categories</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Grains">Grains</option>
+                    <option value="Legumes">Legumes</option>
+                    <option value="Tubers">Tubers</option>
+                    <option value="Herbs">Herbs</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Livestock">Livestock</option>
+                </select>
+
+                <!-- District Filter -->
+                <select id="district-filter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="">All Districts</option>
+                    <option value="Bugesera">Bugesera</option>
+                    <option value="Burera">Burera</option>
+                    <option value="Gakenke">Gakenke</option>
+                    <option value="Gasabo">Gasabo</option>
+                    <option value="Gatsibo">Gatsibo</option>
+                    <option value="Gicumbi">Gicumbi</option>
+                    <option value="Gisagara">Gisagara</option>
+                    <option value="Huye">Huye</option>
+                    <option value="Kamonyi">Kamonyi</option>
+                    <option value="Karongi">Karongi</option>
+                    <option value="Kayonza">Kayonza</option>
+                    <option value="Kicukiro">Kicukiro</option>
+                    <option value="Kirehe">Kirehe</option>
+                    <option value="Muhanga">Muhanga</option>
+                    <option value="Musanze">Musanze</option>
+                    <option value="Ngoma">Ngoma</option>
+                    <option value="Ngororero">Ngororero</option>
+                    <option value="Nyabihu">Nyabihu</option>
+                    <option value="Nyagatare">Nyagatare</option>
+                    <option value="Nyamasheke">Nyamasheke</option>
+                    <option value="Nyanza">Nyanza</option>
+                    <option value="Nyarugenge">Nyarugenge</option>
+                    <option value="Nyaruguru">Nyaruguru</option>
+                    <option value="Rubavu">Rubavu</option>
+                    <option value="Ruhango">Ruhango</option>
+                    <option value="Rulindo">Rulindo</option>
+                    <option value="Rusizi">Rusizi</option>
+                    <option value="Rutsiro">Rutsiro</option>
+                    <option value="Rwamagana">Rwamagana</option>
+                </select>
+
+                <!-- Freshness Filter -->
+                <select id="freshness-filter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="">All Freshness</option>
+                    <option value="fresh">Fresh</option>
+                    <option value="good">Good</option>
+                    <option value="excellent">Excellent</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center py-12">
+            <i class="fas fa-leaf text-4xl text-green-600 mb-4 animate-spin"></i>
+            <p class="text-gray-600">Loading marketplace...</p>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 hidden">
+            <!-- Products will be populated by JavaScript -->
+        </div>
+
+        <!-- No Products State -->
+        <div id="no-products-state" class="text-center py-12 hidden">
+            <i class="fas fa-box-open text-4xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">
+                <span data-en="No products found" data-rw="Nta bicuruzwa byabonetse">No products found</span>
+            </h3>
+            <p class="text-gray-600">
+                <span data-en="Try adjusting your search or filters" data-rw="Gerageza guhindura ubushakashatsi cyangwa akayunguruzo">Try adjusting your search or filters</span>
+            </p>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button id="load-more-btn" class="px-8 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hidden">
+                Load More Products
+            </button>
+        </div>
+    </div>
+
+    <script src="js/marketplace.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
