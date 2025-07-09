@@ -1,6 +1,6 @@
 // Supabase configuration
-const SUPABASE_URL = "YOUR_SUPABASE_URL"
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY"
+const SUPABASE_URL = 'https://mllcxecflmjwzbamhjzq.supabase.co'; // replace this
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sbGN4ZWNmbG1qd3piYW1oanpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5ODY4NzMsImV4cCI6MjA2NzU2Mjg3M30.16d6W6nYx9G-fP9dY0iPQcQs6TBPqzswSZJSEix4ZW4'; // replace this
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -31,20 +31,49 @@ function initializeAuth() {
   checkAuthState()
 
   // Initialize login form
-  const loginForm = document.getElementById("login-form")
-  if (loginForm) {
-    loginForm.addEventListener("submit", handleLogin)
-    initializePasswordToggle("toggle-password", "password")
-  }
+ // Login handler
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert('Login failed: ' + error.message);
+    } else {
+      alert('Login successful!');
+      window.location.href = 'dashboard.html';
+    }
+  });
+}
 
   // Initialize signup form
-  const signupForm = document.getElementById("signup-form")
-  if (signupForm) {
-    signupForm.addEventListener("submit", handleSignup)
-    initializePasswordToggle("toggle-password", "password")
-    initializePasswordToggle("toggle-confirm-password", "confirmPassword")
-    initializeRoleField()
-  }
+  const signupForm = document.getElementById('signup-form');
+if (signupForm) {
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert('Signup error: ' + error.message);
+    } else {
+      alert('Check your email for verification!');
+      console.log(data);
+    }
+  });
+}
 
   // Initialize logout
   const logoutBtn = document.getElementById("logout-btn")
