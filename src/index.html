@@ -1,13 +1,365 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLink Rwanda - Empowering Rwandan Farmers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-leaf text-2xl text-green-600"></i>
+                    <span class="text-xl font-bold text-gray-900">AgriLink Rwanda</span>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-green-600 transition-colors">
+                        <span data-en="Features" data-rw="Ibintu">Features</span>
+                    </a>
+                    <a href="#about" class="text-gray-600 hover:text-green-600 transition-colors">
+                        <span data-en="About" data-rw="Ibyerekeye">About</span>
+                    </a>
+                    <a href="#contact" class="text-gray-600 hover:text-green-600 transition-colors">
+                        <span data-en="Contact" data-rw="Twandikire">Contact</span>
+                    </a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button id="lang-en" class="px-3 py-1 text-sm font-medium bg-green-600 text-white rounded">EN</button>
+                        <button id="lang-rw" class="px-3 py-1 text-sm font-medium bg-gray-200 text-gray-700 rounded">RW</button>
+                    </div>
+                    <a href="login.html" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        <span data-en="Login" data-rw="Injira">Login</span>
+                    </a>
+                    <a href="signup.html" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        <span data-en="Sign Up" data-rw="Iyandikishe">Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20 px-4 sm:px-6 lg:px-8 text-white">
+        <div class="max-w-7xl mx-auto text-center fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <span data-en="Empowering Rwandan Farmers" data-rw="Gushimangira Abahinzi b'u Rwanda">Empowering Rwandan Farmers</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                <span data-en="Connect directly with buyers and access agricultural knowledge" data-rw="Huza abahinzi n'abaguzi kandi ubone ubumenyi bw'ubuhinzi">Connect directly with buyers and access agricultural knowledge</span>
+            </p>
+            <p class="text-lg mb-12 max-w-4xl mx-auto opacity-90">
+                <span data-en="AgriLink Rwanda bridges the gap between farmers and markets while providing essential agricultural education to build a more resilient farming community." data-rw="AgriLink Rwanda ihuza abahinzi n'amasoko mu gihe itanga ubumenyi bw'ubuhinzi bw'ingenzi kugira ngo tubake umuryango w'abahinzi ukomeye.">AgriLink Rwanda bridges the gap between farmers and markets while providing essential agricultural education to build a more resilient farming community.</span>
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="signup.html" class="px-8 py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    <span data-en="Get Started" data-rw="Tangira">Get Started</span>
+                </a>
+                <a href="#features" class="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors">
+                    <span data-en="Learn More" data-rw="Menya Byinshi">Learn More</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-green-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="fade-in">
+                    <div class="text-3xl font-bold mb-2">1000+</div>
+                    <div class="text-green-100">
+                        <span data-en="Active Farmers" data-rw="Abahinzi Bakora">Active Farmers</span>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-3xl font-bold mb-2">200+</div>
+                    <div class="text-green-100">
+                        <span data-en="Verified Buyers" data-rw="Abaguzi Bemejwe">Verified Buyers</span>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-3xl font-bold mb-2">500+</div>
+                    <div class="text-green-100">
+                        <span data-en="Products Listed Daily" data-rw="Ibicuruzwa Bishyirwaho Buri Munsi">Products Listed Daily</span>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-3xl font-bold mb-2">30</div>
+                    <div class="text-green-100">
+                        <span data-en="Districts Coverage" data-rw="Uturere Twose">Districts Coverage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+                <span data-en="Why Choose AgriLink Rwanda?" data-rw="Kuki Uhitamo AgriLink Rwanda?">Why Choose AgriLink Rwanda?</span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center card-hover fade-in">
+                    <i class="fas fa-chart-line text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">
+                        <span data-en="Direct Marketplace" data-rw="Isoko Ritaziguye">Direct Marketplace</span>
+                    </h3>
+                    <p class="text-gray-600">
+                        <span data-en="Sell your produce directly to buyers without middlemen, maximizing your profits." data-rw="Gura ibicuruzwa byawe mu buryo butaziguye kuri abaguzi, wongere inyungu zawe.">Sell your produce directly to buyers without middlemen, maximizing your profits.</span>
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center card-hover fade-in">
+                    <i class="fas fa-book-open text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">
+                        <span data-en="Agricultural Education" data-rw="Amahugurwa y'Ubuhinzi">Agricultural Education</span>
+                    </h3>
+                    <p class="text-gray-600">
+                        <span data-en="Access farming tips, best practices, and training materials to improve your yields." data-rw="Bona inama z'ubuhinzi, uburyo bwiza, n'ibikoresho by'amahugurwa kugira ngo wongere umusaruro wawe.">Access farming tips, best practices, and training materials to improve your yields.</span>
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center card-hover fade-in">
+                    <i class="fas fa-users text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">
+                        <span data-en="Farmer Community" data-rw="Umuryango w'Abahinzi">Farmer Community</span>
+                    </h3>
+                    <p class="text-gray-600">
+                        <span data-en="Connect with fellow farmers and share knowledge and experiences." data-rw="Huza n'abandi bahinzi usangire ubumenyi n'uburambe.">Connect with fellow farmers and share knowledge and experiences.</span>
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center card-hover fade-in">
+                    <i class="fas fa-mobile-alt text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">
+                        <span data-en="Mobile Friendly" data-rw="Bikoreshwa kuri Telefoni">Mobile Friendly</span>
+                    </h3>
+                    <p class="text-gray-600">
+                        <span data-en="Access the platform from any device, optimized for smartphones." data-rw="Koresha urubuga kuva ku bikoresho byose, byateguwe kuri telefoni zigendanwa.">Access the platform from any device, optimized for smartphones.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-gray-100 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+                        <span data-en="Platform Benefits" data-rw="Inyungu z'Urubuga">Platform Benefits</span>
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Increase farmer income by 30-50%" data-rw="Kongera amafaranga y'abahinzi 30-50%">Increase farmer income by 30-50%</span>
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Reduce crop waste through better market coordination" data-rw="Kugabanya igihombo cy'ibihingwa binyuze mu guhuza neza amasoko">Reduce crop waste through better market coordination</span>
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Access to climate-resilient farming techniques" data-rw="Kubona uburyo bw'ubuhinzi bukwiye ibihe">Access to climate-resilient farming techniques</span>
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Direct connection with verified buyers" data-rw="Guhuza mu buryo butaziguye n'abaguzi bemejwe">Direct connection with verified buyers</span>
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Multi-language support (English & Kinyarwanda)" data-rw="Gushyigikira indimi nyinshi (Icyongereza & Ikinyarwanda)">Multi-language support (English & Kinyarwanda)</span>
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mt-0.5">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <p class="text-gray-700 text-lg">
+                                <span data-en="Mobile-optimized for rural connectivity" data-rw="Byateguwe kuri telefoni zigendanwa mu cyaro">Mobile-optimized for rural connectivity</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 fade-in">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <i class="fas fa-shield-alt text-2xl text-green-600 mb-3"></i>
+                        <h3 class="font-semibold mb-2">
+                            <span data-en="Secure Platform" data-rw="Urubuga Rufite Umutekano">Secure Platform</span>
+                        </h3>
+                        <p class="text-sm text-gray-600">
+                            <span data-en="Protected transactions and data" data-rw="Ubucuruzi n'amakuru birindwa">Protected transactions and data</span>
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <i class="fas fa-globe text-2xl text-green-600 mb-3"></i>
+                        <h3 class="font-semibold mb-2">
+                            <span data-en="Multi-Language" data-rw="Indimi Nyinshi">Multi-Language</span>
+                        </h3>
+                        <p class="text-sm text-gray-600">
+                            <span data-en="English & Kinyarwanda support" data-rw="Gushyigikira Icyongereza & Ikinyarwanda">English & Kinyarwanda support</span>
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <i class="fas fa-award text-2xl text-green-600 mb-3"></i>
+                        <h3 class="font-semibold mb-2">
+                            <span data-en="Certified Learning" data-rw="Kwiga Kwemejwe">Certified Learning</span>
+                        </h3>
+                        <p class="text-sm text-gray-600">
+                            <span data-en="Earn certificates for completed courses" data-rw="Bona impamyabumenyi ku masomo yarangije">Earn certificates for completed courses</span>
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <i class="fas fa-mobile-alt text-2xl text-green-600 mb-3"></i>
+                        <h3 class="font-semibold mb-2">
+                            <span data-en="Mobile First" data-rw="Telefoni Mbere">Mobile First</span>
+                        </h3>
+                        <p class="text-sm text-gray-600">
+                            <span data-en="Optimized for rural connectivity" data-rw="Byateguwe ku guhuza mu cyaro">Optimized for rural connectivity</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-green-600 text-white px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                <span data-en="Ready to Transform Your Farming?" data-rw="Witeguye Guhindura Ubuhinzi Bwawe?">Ready to Transform Your Farming?</span>
+            </h2>
+            <p class="text-xl mb-8 text-green-100">
+                <span data-en="Join thousands of farmers already using AgriLink Rwanda to increase their income and improve their farming practices." data-rw="Jya mu bahinzi ibihumbi basanzwe bakoresha AgriLink Rwanda kugira ngo bongere amafaranga yabo kandi bateze imbere ubuhinzi bwabo.">Join thousands of farmers already using AgriLink Rwanda to increase their income and improve their farming practices.</span>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="signup.html" class="px-8 py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    <span data-en="Start Selling Today" data-rw="Tangira Kugurisha Uyu Munsi">Start Selling Today</span>
+                </a>
+                <a href="education.html" class="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors">
+                    <span data-en="Explore Learning" data-rw="Shakisha Kwiga">Explore Learning</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-leaf text-xl text-green-400"></i>
+                        <span class="text-lg font-bold">AgriLink Rwanda</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        <span data-en="Empowering Rwandan farmers through technology and education." data-rw="Gushimangira abahinzi b'u Rwanda binyuze mu ikoranabuhanga n'amahugurwa.">Empowering Rwandan farmers through technology and education.</span>
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">
+                        <span data-en="Platform" data-rw="Urubuga">Platform</span>
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="marketplace.html" class="hover:text-white transition-colors">
+                            <span data-en="Marketplace" data-rw="Isoko">Marketplace</span>
+                        </a></li>
+                        <li><a href="education.html" class="hover:text-white transition-colors">
+                            <span data-en="Education" data-rw="Amahugurwa">Education</span>
+                        </a></li>
+                        <li><a href="dashboard.html" class="hover:text-white transition-colors">
+                            <span data-en="Dashboard" data-rw="Ikibaho">Dashboard</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">
+                        <span data-en="Support" data-rw="Ubufasha">Support</span>
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">
+                            <span data-en="Help Center" data-rw="Ikigo cy'Ubufasha">Help Center</span>
+                        </a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">
+                            <span data-en="Contact Us" data-rw="Twandikire">Contact Us</span>
+                        </a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">
+                        <span data-en="Legal" data-rw="Amategeko">Legal</span>
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">
+                            <span data-en="Privacy Policy" data-rw="Politiki y'Ibanga">Privacy Policy</span>
+                        </a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">
+                            <span data-en="Terms of Service" data-rw="Amabwiriza y'Ikoreshwa">Terms of Service</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2025 AgriLink Rwanda. 
+                    <span data-en="All rights reserved." data-rw="Uburenganzira bwose burabitswe.">All rights reserved.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
