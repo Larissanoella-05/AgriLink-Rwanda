@@ -31,11 +31,11 @@ function switchLanguage(language) {
 
   if (langEnBtn && langRwBtn) {
     if (language === "en") {
-      langEnBtn.className = "px-3 py-1 text-sm font-medium bg-green-600 text-white rounded"
-      langRwBtn.className = "px-3 py-1 text-sm font-medium bg-gray-200 text-gray-700 rounded"
+      langEnBtn.className = "px-3 py-1 text-sm font-medium bg-amber-700 text-white rounded hover:bg-amber-800"
+      langRwBtn.className = "px-3 py-1 text-sm font-medium bg-stone-200 text-stone-700 rounded hover:bg-stone-300"
     } else {
-      langEnBtn.className = "px-3 py-1 text-sm font-medium bg-gray-200 text-gray-700 rounded"
-      langRwBtn.className = "px-3 py-1 text-sm font-medium bg-green-600 text-white rounded"
+      langEnBtn.className = "px-3 py-1 text-sm font-medium bg-stone-200 text-stone-700 rounded hover:bg-stone-300"
+      langRwBtn.className = "px-3 py-1 text-sm font-medium bg-amber-700 text-white rounded hover:bg-amber-800"
     }
   }
 

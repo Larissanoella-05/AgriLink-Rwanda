@@ -1,25 +1,13 @@
-// Supabase configuration
-const SUPABASE_URL = "https://mllcxecflmjwzbamhjzq.supabase.co"
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sbGN4ZWNmbG1qd3piYW1oanpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5ODY4NzMsImV4cCI6MjA2NzU2Mjg3M30.16d6W6nYx9G-fP9dY0iPQcQs6TBPqzswSZJSEix4ZW4"
+// Supabase configuration - Updated for Netlify deployment
+const SUPABASE_URL = "https://your-project-id.supabase.co" // Replace with your actual Supabase URL
+const SUPABASE_ANON_KEY = "your-anon-key-here" // Replace with your actual Supabase anon key
+
+// For production, you might want to use environment variables
+// But since this is client-side JavaScript, the keys will be visible anyway
+// Make sure to use the anon key (public key) not the service key
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-
-// Declare variables
-const currentLanguage = "en" // Default language, should be imported or set dynamically
-function showError(message) {
-  const errorDiv = document.getElementById("error-message")
-  if (errorDiv) {
-    errorDiv.textContent = message
-    errorDiv.style.display = "block"
-  }
-}
-function hideError() {
-  const errorDiv = document.getElementById("error-message")
-  if (errorDiv) {
-    errorDiv.style.display = "none"
-  }
-}
 
 // Authentication functions
 document.addEventListener("DOMContentLoaded", () => {
@@ -54,24 +42,27 @@ function initializeAuth() {
 }
 
 async function checkAuthState() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (user) {
-    // User is logged in
-    if (window.location.pathname.includes("login.html") || window.location.pathname.includes("signup.html")) {
-      window.location.href = "dashboard.html"
+    const currentPath = window.location.pathname
+    const currentPage = currentPath.split("/").pop() || "index.html"
+
+    if (user) {
+      // User is logged in
+      if (currentPage === "login.html" || currentPage === "signup.html") {
+        window.location.href = "dashboard.html"
+      }
+    } else {
+      // User is not logged in
+      if (currentPage === "dashboard.html" || currentPage === "marketplace.html" || currentPage === "education.html") {
+        window.location.href = "login.html"
+      }
     }
-  } else {
-    // User is not logged in
-    if (
-      window.location.pathname.includes("dashboard.html") ||
-      window.location.pathname.includes("marketplace.html") ||
-      window.location.pathname.includes("education.html")
-    ) {
-      window.location.href = "login.html"
-    }
+  } catch (error) {
+    console.error("Auth state check error:", error)
   }
 }
 
@@ -100,11 +91,13 @@ async function handleLogin(e) {
       window.location.href = "dashboard.html"
     }
   } catch (err) {
+    console.error("Login error:", err)
     showError("An unexpected error occurred")
   } finally {
     // Reset button state
     loginBtn.disabled = false
-    loginBtn.innerHTML = currentLanguage === "en" ? "Sign In" : "Injira"
+    const currentLang = localStorage.getItem("agrilink-language") || "en"
+    loginBtn.innerHTML = currentLang === "en" ? "Sign In" : "Injira"
   }
 }
 
@@ -116,13 +109,15 @@ async function handleSignup(e) {
 
   // Validation
   if (data.password !== data.confirmPassword) {
-    showError(currentLanguage === "en" ? "Passwords do not match" : "Amagambo y'ibanga ntabwo ahura")
+    const currentLang = localStorage.getItem("agrilink-language") || "en"
+    showError(currentLang === "en" ? "Passwords do not match" : "Amagambo y'ibanga ntabwo ahura")
     return
   }
 
   if (!data.acceptTerms) {
+    const currentLang = localStorage.getItem("agrilink-language") || "en"
     showError(
-      currentLanguage === "en" ? "Please accept the terms and conditions" : "Nyamuneka wemere amabwiriza n'amategeko",
+      currentLang === "en" ? "Please accept the terms and conditions" : "Nyamuneka wemere amabwiriza n'amategeko",
     )
     return
   }
@@ -152,7 +147,7 @@ async function handleSignup(e) {
 
     if (signUpError) {
       showError(signUpError.message)
-    } else {
+    } else if (authData.user) {
       // Create profile
       const { error: profileError } = await supabase.from("profiles").insert([
         {
@@ -168,25 +163,34 @@ async function handleSignup(e) {
       ])
 
       if (profileError) {
-        showError(profileError.message)
+        console.error("Profile creation error:", profileError)
+        showError("Account created but profile setup failed. Please contact support.")
       } else {
         // Success - redirect to dashboard
         window.location.href = "dashboard.html"
       }
     }
   } catch (err) {
+    console.error("Signup error:", err)
     showError("An unexpected error occurred")
   } finally {
     // Reset button state
     signupBtn.disabled = false
-    signupBtn.innerHTML = currentLanguage === "en" ? "Create Account" : "Kora Konti"
+    const currentLang = localStorage.getItem("agrilink-language") || "en"
+    signupBtn.innerHTML = currentLang === "en" ? "Create Account" : "Kora Konti"
   }
 }
 
 async function handleLogout() {
-  const { error } = await supabase.auth.signOut()
-  if (!error) {
-    window.location.href = "index.html"
+  try {
+    const { error } = await supabase.auth.signOut()
+    if (!error) {
+      window.location.href = "index.html"
+    } else {
+      console.error("Logout error:", error)
+    }
+  } catch (err) {
+    console.error("Logout error:", err)
   }
 }
 
@@ -221,5 +225,22 @@ function initializeRoleField() {
         farmLocationField.classList.add("hidden")
       }
     })
+  }
+}
+
+function showError(message) {
+  const errorAlert = document.getElementById("error-alert")
+  const errorMessage = document.getElementById("error-message")
+
+  if (errorAlert && errorMessage) {
+    errorMessage.textContent = message
+    errorAlert.classList.remove("hidden")
+  }
+}
+
+function hideError() {
+  const errorAlert = document.getElementById("error-alert")
+  if (errorAlert) {
+    errorAlert.classList.add("hidden")
   }
 }
